@@ -1,43 +1,21 @@
-const CACHE_NAME = 'recibos-pro-v1';
-const ASSETS_TO_CACHE = [
-  './',
-  './index.html',
-  './manifest.json',
-  './sw.js',
-  './icon.png' 
+const CACHE_NAME = 'recibos-v2';
+const ASSETS = [
+    './',
+    './index.html',
+    './style.css',
+    './script.js',
+    './manifest.json'
+    // Adicione './icon.png' aqui se você tiver a imagem
 ];
 
-// Instalação do Service Worker
-self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then((cache) => {
-        console.log('[Service Worker] Caching files');
-        return cache.addAll(ASSETS_TO_CACHE);
-      })
-  );
+self.addEventListener('install', (e) => {
+    e.waitUntil(
+        caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS))
+    );
 });
 
-// Ativação e limpeza de caches antigos
-self.addEventListener('activate', (event) => {
-  event.waitUntil(
-    caches.keys().then((keyList) => {
-      return Promise.all(keyList.map((key) => {
-        if (key !== CACHE_NAME) {
-          return caches.delete(key);
-        }
-      }));
-    })
-  );
-});
-
-// Interceptação de requisições (Offline first)
-self.addEventListener('fetch', (event) => {
-  event.respondWith(
-    caches.match(event.request)
-      .then((response) => {
-        // Retorna do cache se existir, senão busca na rede
-        return response || fetch(event.request);
-      })
-  );
+self.addEventListener('fetch', (e) => {
+    e.respondWith(
+        caches.match(e.request).then((response) => response || fetch(e.request))
+    );
 });

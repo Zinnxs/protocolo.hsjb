@@ -1,6 +1,6 @@
 {
-  "name": "Gerador de Recibos",
-  "short_name": "Recibos Pro",
+  "name": "Gerador de Recibos Pro",
+  "short_name": "Recibos",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#2c3e50",
